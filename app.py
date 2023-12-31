@@ -41,10 +41,8 @@ def qa_llm():
     qa = RetrievalQA.from_chain_type(llm = llm, 
                                      chain_type="stuff", 
                                      retriever = retriever, 
-                                     # return_source_document = True
+                                     return_source_documents = True
                                      ) 
-    # chain_type = "stuff", retriever = retriever, return_source_document = True)
-
     return qa
 
 def process_answer(instruction):
