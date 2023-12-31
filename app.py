@@ -57,10 +57,18 @@ def process_answer(instruction):
 def main():
     st.title("Search your PDF")
     with st.expander("About the app"):
-        st.markdown(
+        st.markdown
+        (
             """
-            lorem impsum
-            
+            Tell you should be able to query PDF.
+            .
+            .
+            .
+            .
+            .
+            .
+            .
+            .
             """
         )
     question = st.text_area("Enter Your Question")
