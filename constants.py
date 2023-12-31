@@ -5,3 +5,5 @@ CHROMA_SETTINGS = Settings(
         anonymized_telemetry=False,
         persist_directory="db"
 )
+
+# Comment
