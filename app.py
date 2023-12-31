@@ -46,11 +46,12 @@ def qa_llm():
     return qa
 
 def process_answer(instruction):
-    response = ''
+    # response = ''
     instruction = instruction
     qa = qa_llm()
     generated_text = qa(instruction)
     answer = generated_text['result']
+    print(answer)
     
     return answer, generated_text
 
@@ -73,7 +74,7 @@ def main():
         )
     question = st.text_area("Enter Your Question")
     if st.button("Search"):
-        st.info("Your Question:" + question)
+        st.info("Your Question: " + question)
         st.info("Your Response")
         answer, metadata = process_answer(question)
         st.write(answer)
