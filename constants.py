@@ -6,4 +6,3 @@ CHROMA_SETTINGS = Settings(
         persist_directory="db"
 )
 
-# Comment
