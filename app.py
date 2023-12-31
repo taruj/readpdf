@@ -83,7 +83,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-# retriever = # ... (however you initialize your retriever)
-# llm = # ... (your language model pipeline)
-# qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
