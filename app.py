@@ -14,26 +14,21 @@ from constants import CHROMA_SETTINGS
 
 checkpoint = "LaMini-T5-738M"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-# base_model = AutoModelForSeq2SeqLM.from_pretrained(
-#     checkpoint,
-#     device_map = "auto",
-#     torch_dtype = torch.float32
-# )
 base_model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
 
 @st.cache_resource
 def llm_pipeline():
     pipe = pipeline('text2text-generation',
-                       model = base_model,
-                       tokenizer = AutoTokenizer,
-                       max_length = 256,
-                       do_sample = True,
-                       temprature = 0.3,
-                       top_p = 0.95
-                       )
+                    model=base_model,
+                    tokenizer=tokenizer,  # use the initialized tokenizer
+                    max_length=256,
+                    do_sample=True,
+                    temperature=0.3,  # Correct the spelling here
+                    top_p=0.95
+                    )
     
-    local_llm = HuggingFacePipeline(pipeline = pipe)
+    local_llm = HuggingFacePipeline(pipeline=pipe)
     return local_llm
 
 
@@ -43,11 +38,13 @@ def qa_llm():
     db = Chroma(persist_directory = "db", embedding_function=embeddings,
                 client_settings=CHROMA_SETTINGS)
     retriever = db.as_retriever()
-    qa = RetrievalQA.from_chain_type(llm = llm, type="stuff") # chain_type = "stuff", retriever = retriever, return_source_document = True)
-    # llm = llm,
-    # # chain_type = "stuff",
-    # retriever = retriever,
-    # return_source_document = True
+    qa = RetrievalQA.from_chain_type(llm = llm, 
+                                     chain_type="stuff", 
+                                     retriever = retriever, 
+                                     # return_source_document = True
+                                     ) 
+    # chain_type = "stuff", retriever = retriever, return_source_document = True)
+
     return qa
 
 def process_answer(instruction):
@@ -56,6 +53,7 @@ def process_answer(instruction):
     qa = qa_llm()
     generated_text = qa(instruction)
     answer = generated_text['result']
+    
     return answer, generated_text
 
 def main():
@@ -78,3 +76,8 @@ def main():
         
 if __name__ == '__main__':
     main()
+
+
+# retriever = # ... (however you initialize your retriever)
+# llm = # ... (your language model pipeline)
+# qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
